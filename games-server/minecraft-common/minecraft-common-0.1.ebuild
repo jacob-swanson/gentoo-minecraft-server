@@ -22,7 +22,7 @@ DIR="/var/lib/minecraft"
 PID="/var/run/minecraft"
 
 src_prepare() {
-	cp "${FILESDIR}"/{init,console}.sh . || die
+	cp "${FILESDIR}"/console.sh . || die
 	sed -i "s/@GAMES_GROUP@/${GAMES_GROUP}/g" console.sh || die
 }
 
