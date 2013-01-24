@@ -34,11 +34,14 @@ src_unpack() {
 java_prepare() {
 	cp "${FILESDIR}"/directory.sh . || die
 	sed -i "s/@GAMES_USER_DED@/${GAMES_USER_DED}/g" directory.sh || die
+	sed -i "s/@GAMES_USER_DED@/${GAMES_USER_DED}/g" init.sh || die
 }
 
 src_install() {
 	local ARGS
 	use ipv6 || ARGS="-Djava.net.preferIPv4Stack=true"
+
+	newinitd init.sh ${PN} || die
 
 	java-pkg_newjar "${DISTDIR}/${P}.jar" "${PN}.jar"
 	java-pkg_dolauncher "${PN}" -into "${GAMES_PREFIX}" -pre directory.sh \
