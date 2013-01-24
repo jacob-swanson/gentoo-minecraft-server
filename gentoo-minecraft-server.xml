@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>                                                                                                     
+ <repositories version="1.0">
+   <repo priority="50" quality="experimental" status="unofficial">
+     <name>gentoo-minecraft-server</name>
+     <description>Gentoo overlay for the Minecraft and Tekkit servers</description>
+     <homepage>https://github.com/WastingBody/gentoo-minecraft-server</homepage>
+     <owner>
+       <email></email>
+     </owner>
+     <source type="git">git://github.com/WastingBody/gentoo-minecraft-server.git</source>
+   </repo>
+</repositories>
