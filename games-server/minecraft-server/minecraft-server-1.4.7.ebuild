@@ -32,7 +32,7 @@ src_unpack() {
 }
 
 java_prepare() {
-	cp "${FILESDIR}"/directory.sh . || die
+	cp "${FILESDIR}"/{directory.sh,init.sh} . || die
 	sed -i "s/@GAMES_USER_DED@/${GAMES_USER_DED}/g" directory.sh || die
 	sed -i "s/@GAMES_USER_DED@/${GAMES_USER_DED}/g" init.sh || die
 }
