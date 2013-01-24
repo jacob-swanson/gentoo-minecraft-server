@@ -13,6 +13,11 @@ else
 	gjl_pwd="${HOME}/.minecraft/servers/${NAME}"
 fi
 
+if [[ ! -f "${gjl_pwd}/@PACKAGE_NAME@.installed" ]]; then
+	cp -a "@DATA_DIR@/*" "${gjl_pwd}/"
+	touch "${gjl_pwd}/@PACKAGE_NAME@.installed"
+fi
+
 echo "Multiverse directory is ${gjl_pwd}." >&2
 mkdir -p "${gjl_pwd}"
 
