@@ -3,11 +3,12 @@
 # $Header: $
 
 EAPI="2"
-inherit games java-pkg-2
+inherit games java-pkg-2 versionator
 
 DESCRIPTION="Official dedicated server for Minecraft"
 HOMEPAGE="http://www.minecraft.net"
-SRC_URI="http://assets.minecraft.net/$(echo ${PV} | sed -e 's/\./\_/g')/minecraft_server.jar -> ${P}.jar"
+MY_PV=$(replace_all_version_separators '_')
+SRC_URI="http://assets.minecraft.net/${MY_PV}/minecraft_server.jar -> ${P}.jar"
 LICENSE="as-is"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
