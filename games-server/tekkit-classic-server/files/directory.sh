@@ -13,8 +13,12 @@ else
 	gjl_pwd="${HOME}/.minecraft/servers/${NAME}"
 fi
 
+if [[ ! -d "${gjl_pwd}" ]]; then
+	mkdir "${gjl_pwd}"
+fi
+
 if [[ ! -f "${gjl_pwd}/@PACKAGE_NAME@.installed" ]]; then
-	cp -a "@DATA_DIR@/*" "${gjl_pwd}/"
+	cp -r "@DATA_DIR@/*" "${gjl_pwd}/"
 	touch "${gjl_pwd}/@PACKAGE_NAME@.installed"
 fi
 
