@@ -3,12 +3,11 @@
 # $Header: $
 
 EAPI="2"
-inherit games java-pkg-2 versionator
+inherit games java-pkg-2
 
 DESCRIPTION="Official dedicated server for Minecraft"
 HOMEPAGE="http://www.minecraft.net"
-MY_PV=$(replace_all_version_separators '_')
-SRC_URI="http://assets.minecraft.net/${MY_PV}/minecraft_server.jar -> ${P}.jar"
+SRC_URI="http://mirror.technicpack.net/Technic/servers/tekkit/Tekkit_Server_${PV}.zip -> ${P}.zip"
 LICENSE="as-is"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -28,13 +27,31 @@ pkg_setup() {
 }
 
 src_unpack() {
-	true # NOOP!
+	unpack "${A}" || die
+
+	cd "${S}"
+
+	mv Tekkit.jar ${PN}.jar || die
+
+	rm -f launch.sh
+	rm -f launch.bat
+
+	mkdir data || die
+
+	mv config/	data/	|| die
+	mv mods/	data/	|| die
+	mv buildcraft	data/	|| die
+	mv redpower	data/	|| die
+	mv mod_EE.props	data/	|| die
 }
 
 java_prepare() {
-	cp "${FILESDIR}"/{directory.sh,init.sh} . || die
+	cp "${FILESDIR}"/{directory,init}.sh . || die
 	sed -i "s/@GAMES_USER_DED@/${GAMES_USER_DED}/g" directory.sh || die
 	sed -i "s/@GAMES_USER_DED@/${GAMES_USER_DED}/g" init.sh || die
+
+	sed -i "s#@DATA_DIR@#${GAMES_DATADIR}/${PN}#g" directory.sh || die
+	sed -i "s/@PACKAGE_NAME@/${P}/g" directory.sh || die
 }
 
 src_install() {
@@ -43,10 +60,13 @@ src_install() {
 
 	newinitd init.sh ${PN} || die
 
-	java-pkg_newjar "${DISTDIR}/${P}.jar" "${PN}.jar"
+	java-pkg_newjar "${PN}.jar" "${PN}.jar"
 	java-pkg_dolauncher "${PN}" -into "${GAMES_PREFIX}" -pre directory.sh \
 		--java_args "-Xmx1024M -Xms512M ${ARGS}" --pkg_args "nogui" \
-		--main net.minecraft.server.MinecraftServer
+		--main org.bukkit.craftbukkit.Main
+
+	insinto "${GAMES_DATADIR}/${PN}/"
+	doins -r data/* || die
 
 	prepgamesdirs
 }
