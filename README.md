@@ -17,3 +17,7 @@ Sync your layman overlays
 Add the overlay
 
 `layman -a gentoo-minecraft-server`
+
+Install a server
+
+`emerge minecraft-server` or `emerge tekkit-classic-server`
