@@ -39,9 +39,10 @@ src_unpack() {
 
 	mv config/	data/	|| die
 	mv mods/	data/	|| die
-	mv buildcraft	data/	|| die
-	mv redpower	data/	|| die
+	mv buildcraft/	data/	|| die
+	mv redpower/	data/	|| die
 	mv mod_EE.props	data/	|| die
+	mv plugins/	data/	|| die
 }
 
 java_prepare() {
@@ -88,10 +89,10 @@ pkg_postinst() {
 	einfo "default multiverse name is \"main\"."
 	echo
 
-    ewarn "You may run two servers against the same multiverse but not simultaneously."
-    ewarn "This is not recommended though so don't come crying to us if it"
-    ewarn "trashes your world."
-    echo
+	ewarn "You may run two servers against the same multiverse but not simultaneously."
+	ewarn "This is not recommended though so don't come crying to us if it"
+	ewarn "trashes your world."
+	echo
 
 	games_pkg_postinst
 }
