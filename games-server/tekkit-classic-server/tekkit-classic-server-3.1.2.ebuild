@@ -5,8 +5,8 @@
 EAPI="2"
 inherit games java-pkg-2
 
-DESCRIPTION="Official dedicated server for Minecraft"
-HOMEPAGE="http://www.minecraft.net"
+DESCRIPTION="Dedicated Tekkit Classic server for Minecraft"
+HOMEPAGE="http://www.technicpack.net/tekkit/"
 SRC_URI="http://mirror.technicpack.net/Technic/servers/tekkit/Tekkit_Server_${PV}.zip -> ${P}.zip"
 LICENSE="as-is"
 SLOT="0"
@@ -21,7 +21,6 @@ RDEPEND=">=virtual/jre-1.6
 S="${WORKDIR}"
 
 pkg_setup() {
-	ewarn "This package is NOT required if you want to run CraftBukkit."
 	java-pkg-2_pkg_setup
 	games_pkg_setup
 }
@@ -89,13 +88,10 @@ pkg_postinst() {
 	einfo "default multiverse name is \"main\"."
 	echo
 
-	if has_version games-server/craftbukkit; then
-		ewarn "You already have CraftBukkit installed. You may run both this and the"
-		ewarn "official server against the same multiverse but not simultaneously."
-		ewarn "This is not recommended though so don't come crying to us if it"
-		ewarn "trashes your world."
-		echo
-	fi
+    ewarn "You may run two servers against the same multiverse but not simultaneously."
+    ewarn "This is not recommended though so don't come crying to us if it"
+    ewarn "trashes your world."
+    echo
 
 	games_pkg_postinst
 }
