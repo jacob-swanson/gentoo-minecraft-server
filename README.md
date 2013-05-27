@@ -20,4 +20,4 @@ Add the overlay
 
 Install a server
 
-`emerge minecraft-server` or `emerge tekkit-classic-server`
+`emerge minecraft-server` or `emerge tekkit-classic-server` or `emerge tekkit-lite-server`

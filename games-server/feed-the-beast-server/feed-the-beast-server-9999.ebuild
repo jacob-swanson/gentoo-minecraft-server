@@ -5,9 +5,9 @@
 EAPI="2"
 inherit games java-pkg-2
 
-DESCRIPTION="Dedicated Tekkit Lite server for Minecraft"
-HOMEPAGE="http://www.technicpack.net/tekkit-lite/"
-SRC_URI="http://mirror.technicpack.net/Technic/servers/tekkitlite/Tekkit_Lite_Server_${PV}.zip -> ${P}.zip"
+DESCRIPTION="Dedicated Feed the Beast Ultimate server for Minecraft"
+HOMEPAGE="http://feed-the-beast.com/"
+SRC_URI="http://www.creeperrepo.net/direct/FTB2/6745399749f7ae55047294c82af08b82/modpacks%5EUltimate%5E1_0_1%5EUltimate_Server.zip -> ${P}.zip"
 LICENSE="as-is"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -30,10 +30,10 @@ src_unpack() {
 
 	cd "${S}"
 
-	mv TekkitLite.jar ${PN}.jar || die
+	mv ftbserver.jar ${PN}.jar || die
 
-	rm -f launch.sh
-	rm -f launch.bat
+	rm -f ServerStart.sh
+	rm -f ServerStart.bat
 
 	mkdir data || die
 
