@@ -7,7 +7,7 @@ inherit games java-pkg-2
 
 DESCRIPTION="Dedicated Feed the Beast Ultimate server for Minecraft"
 HOMEPAGE="http://feed-the-beast.com/"
-SRC_URI="http://www.creeperrepo.net/direct/FTB2/6745399749f7ae55047294c82af08b82/modpacks%5EUltimate%5E1_0_1%5EUltimate_Server.zip -> ${P}.zip"
+SRC_URI="http://www.creeperrepo.net/direct/FTB2/b2044e52047de242d0462f5978b12b04/modpacks%5EUltimate%5E1_0_1%5EUltimate_Server.zip -> ${P}.zip"
 LICENSE="as-is"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -36,6 +36,7 @@ src_unpack() {
 	rm -f ServerStart.bat
 
 	mkdir data || die
+	mkdir data/backup || die
 
 	mv config/	data/	|| die
 	mv mods/	data/	|| die

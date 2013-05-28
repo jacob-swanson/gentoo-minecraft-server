@@ -36,6 +36,7 @@ src_unpack() {
 	rm -f launch.bat
 
 	mkdir data || die
+	mkdir data/backup || die
 
 	mv config/	data/	|| die
 	mv mods/	data/	|| die

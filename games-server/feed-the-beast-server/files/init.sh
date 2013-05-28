@@ -56,3 +56,20 @@ stop() {
 console() {
 	exec /usr/bin/tmux -S "${SOCKET}" attach-session
 }
+
+backup() {
+        /usr/bin/tmux -S "${SOCKET}" send-keys 'say Server backup starting...' C-m
+        /usr/bin/tmux -S "${SOCKET}" send-keys 'save-off' C-m
+        /usr/bin/tmux -S "${SOCKET}" send-keys 'save-all' C-m
+        sync
+
+        cd "/var/lib/minecraft/${MULTIVERSE}/"
+        local BACKUP="/var/lib/minecraft/${MULTIVERSE}/backup/${MULTIVERSE}-`date "+%Y%m%d-%H%M"`.tar.bz2"
+        tar -jcpf "${BACKUP}" --exclude='backup' .
+        chown "@GAMES_USER_DED@":"@GAMES_USER_DED@" "${BACKUP}"
+        cd -
+
+        /usr/bin/tmux -S "${SOCKET}" send-keys 'save-on' C-m
+        /usr/bin/tmux -S "${SOCKET}" send-keys 'say Server backup completed.' C-m
+}
+

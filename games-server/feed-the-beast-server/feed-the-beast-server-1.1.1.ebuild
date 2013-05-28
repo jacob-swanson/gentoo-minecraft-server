@@ -36,6 +36,7 @@ src_unpack() {
 	rm -f ServerStart.bat
 
 	mkdir data || die
+	mkdir data/backup || die
 
 	mv config/	data/	|| die
 	mv mods/	data/	|| die
