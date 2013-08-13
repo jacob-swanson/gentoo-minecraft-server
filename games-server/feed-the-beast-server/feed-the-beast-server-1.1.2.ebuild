@@ -3,11 +3,12 @@
 # $Header: $
 
 EAPI="2"
-inherit games java-pkg-2 versionator
+inherit games java-pkg-2
 
-DESCRIPTION="Official dedicated server for Minecraft"
-HOMEPAGE="http://www.minecraft.net"
-SRC_URI="https://s3.amazonaws.com/Minecraft.Download/versions/${PV}/minecraft_server.${PV}.jar -> ${P}.jar"
+DESCRIPTION="Dedicated Feed the Beast Ultimate server for Minecraft"
+HOMEPAGE="http://feed-the-beast.com/"
+MY_PV=$(replace_version_separator "_")
+SRC_URI="http://www.creeperrepo.net/direct/FTB2/904ff53334e8fe7fe2230a4ef659016b/modpacks%5EUltimate%5E1_1_2%5EUltimate_Server.zip -> ${P}.zip"
 LICENSE="as-is"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -21,19 +22,35 @@ RDEPEND=">=virtual/jre-1.6
 S="${WORKDIR}"
 
 pkg_setup() {
-	ewarn "This package is NOT required if you want to run CraftBukkit."
 	java-pkg-2_pkg_setup
 	games_pkg_setup
 }
 
 src_unpack() {
-	true # NOOP!
+	unpack "${A}" || die
+
+	cd "${S}"
+
+	mv ftbserver.jar ${PN}.jar || die
+
+	rm -f ServerStart.sh
+	rm -f ServerStart.bat
+
+	mkdir data || die
+	mkdir data/backup || die
+
+	mv config/	data/	|| die
+	mv mods/	data/	|| die
+	mv coremods/	data/	|| die
 }
 
 java_prepare() {
-	cp "${FILESDIR}"/{directory.sh,init.sh} . || die
+	cp "${FILESDIR}"/{directory,init}.sh . || die
 	sed -i "s/@GAMES_USER_DED@/${GAMES_USER_DED}/g" directory.sh || die
 	sed -i "s/@GAMES_USER_DED@/${GAMES_USER_DED}/g" init.sh || die
+
+	sed -i "s#@DATA_DIR@#${GAMES_DATADIR}/${PN}#g" directory.sh || die
+	sed -i "s/@PACKAGE_NAME@/${P}/g" directory.sh || die
 }
 
 src_install() {
@@ -42,10 +59,13 @@ src_install() {
 
 	newinitd init.sh ${PN} || die
 
-	java-pkg_newjar "${DISTDIR}/${P}.jar" "${PN}.jar"
+	java-pkg_newjar "${PN}.jar" "${PN}.jar"
 	java-pkg_dolauncher "${PN}" -into "${GAMES_PREFIX}" -pre directory.sh \
 		--java_args "-Xmx1024M -Xms512M ${ARGS}" --pkg_args "nogui" \
 		--main net.minecraft.server.MinecraftServer
+
+	insinto "${GAMES_DATADIR}/${PN}/"
+	doins -r data/* || die
 
 	prepgamesdirs
 }
@@ -68,13 +88,10 @@ pkg_postinst() {
 	einfo "default multiverse name is \"main\"."
 	echo
 
-	if has_version games-server/craftbukkit; then
-		ewarn "You already have CraftBukkit installed. You may run both this and the"
-		ewarn "official server against the same multiverse but not simultaneously."
-		ewarn "This is not recommended though so don't come crying to us if it"
-		ewarn "trashes your world."
-		echo
-	fi
+    ewarn "You may run two servers against the same multiverse but not simultaneously."
+    ewarn "This is not recommended though so don't come crying to us if it"
+    ewarn "trashes your world."
+    echo
 
 	games_pkg_postinst
 }
